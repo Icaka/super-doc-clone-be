@@ -29,3 +29,11 @@ INSERT INTO review (doctor_id, score, text) VALUES
     (4, 4, 'Dr. was very attentive and caring.'),
     (5, 5, 'Dr. provided outstanding treatment and advice.');
 
+CREATE TABLE appointment
+(
+    id SERIAL PRIMARY KEY,
+    date DATE,
+    slot INT,
+    doctor_id INT,
+    CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/doctor/{id}/reviews")
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -16,18 +16,18 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/{id}")
-    public Review findById(@PathVariable Integer id){
-        return this.reviewService.findById(id);
-    }
+//    @GetMapping("/{id}")
+//    public Review findById(@PathVariable Integer id){
+//        return this.reviewService.findById(id);
+//    }
 
-    @GetMapping("/doctor/{id}")
+    @GetMapping()
     public List<Review> findByDoctorId(@PathVariable Integer id){
         return this.reviewService.findByDoctorId(id);
     }
 
-    @GetMapping()
-    public List<Review> findAll(){
-        return this.reviewService.findAll();
-    }
+//    @GetMapping()
+//    public List<Review> findAll(){
+//        return this.reviewService.findAll();
+//    }
 }
