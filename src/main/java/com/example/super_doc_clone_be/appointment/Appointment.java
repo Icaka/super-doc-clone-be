@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Table(name = "appointment")
@@ -20,7 +21,7 @@ public class Appointment {
     private Integer Id;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "slot")
     private Integer slot;
