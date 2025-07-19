@@ -18,10 +18,6 @@ public class AppointmentService {
         this.doctorRepository = doctorRepository;
     }
 
-    public Appointment findById(Integer id){
-        return this.appointmentRepository.findById(id).orElseThrow();
-    }
-
     public List<AppointmentDTO> findByDoctorId(final Integer doctorId) {
         List<Appointment> appointments = appointmentRepository.findByDoctorId(doctorId);
         List<AppointmentDTO> result = new ArrayList<>();

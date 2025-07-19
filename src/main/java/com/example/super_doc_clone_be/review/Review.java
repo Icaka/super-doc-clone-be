@@ -1,4 +1,4 @@
-package com.example.super_doc_clone_be.Review;
+package com.example.super_doc_clone_be.review;
 
 import com.example.super_doc_clone_be.doctors.Doctor;
 import jakarta.persistence.*;
@@ -18,7 +18,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor_id;
+    private Doctor doctor;
 
     @Column(name = "score")
     private Integer score;

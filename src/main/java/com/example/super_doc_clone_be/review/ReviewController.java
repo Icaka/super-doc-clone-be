@@ -1,5 +1,6 @@
-package com.example.super_doc_clone_be.Review;
+package com.example.super_doc_clone_be.review;
 
+import com.example.super_doc_clone_be.review.dtos.ReviewDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,18 +17,8 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-//    @GetMapping("/{id}")
-//    public Review findById(@PathVariable Integer id){
-//        return this.reviewService.findById(id);
-//    }
-
     @GetMapping()
-    public List<Review> findByDoctorId(@PathVariable Integer id){
+    public List<ReviewDTO> findByDoctorId(@PathVariable Integer id) {
         return this.reviewService.findByDoctorId(id);
     }
-
-//    @GetMapping()
-//    public List<Review> findAll(){
-//        return this.reviewService.findAll();
-//    }
 }
