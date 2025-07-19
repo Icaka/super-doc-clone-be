@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
-    List<Doctor> findByFirstNameContaining(String query);
-    List<Doctor> findByLastNameContaining(String query);
-    List<Doctor> findByFirstNameContainingOrLastNameContaining(String fName, String lName);
-    @Query("SELECT d FROM Doctor d WHERE d.firstName LIKE CONCAT('%',:query,'%')")
+
+    @Query("SELECT d FROM Doctor d WHERE " +
+            "(LOWER(CONCAT(d.firstName, ' ', d.lastName)) LIKE LOWER(CONCAT('%',:query,'%')))")
     List<Doctor> findByNameLike(String query);
 }
