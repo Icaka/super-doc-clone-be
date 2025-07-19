@@ -1,9 +1,11 @@
 package com.example.super_doc_clone_be.appointment;
 
+import com.example.super_doc_clone_be.appointment.dtos.AppointmentDTO;
 import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
 import com.example.super_doc_clone_be.doctors.DoctorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,15 +22,20 @@ public class AppointmentService {
         return this.appointmentRepository.findById(id).orElseThrow();
     }
 
-    public List<Appointment> findByDoctorId(final Integer doctorId){
-        return this.appointmentRepository.findByDoctor_id(doctorId);
+    public List<AppointmentDTO> findByDoctorId(final Integer doctorId) {
+        List<Appointment> appointments = appointmentRepository.findByDoctorId(doctorId);
+        List<AppointmentDTO> result = new ArrayList<>();
+        for (Appointment a : appointments) {
+            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot()));
+        }
+        return result;
     }
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
         Appointment temp = new Appointment();
         temp.setDate(appointmentDTO.date());
         temp.setSlot(appointmentDTO.slot());
-        temp.setDoctor_id(doctorRepository.findById(doctorId).orElseThrow());
+        temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         this.appointmentRepository.save(temp);
         return true;
     }

@@ -1,5 +1,6 @@
 package com.example.super_doc_clone_be.appointment;
 
+import com.example.super_doc_clone_be.appointment.dtos.AppointmentDTO;
 import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class AppointmentController {
     }
 
     @GetMapping()
-    List<Appointment> findByDoctorId(@PathVariable Integer id){
+    List<AppointmentDTO> findByDoctorId(@PathVariable Integer id) {
         return this.appointmentService.findByDoctorId(id);
     }
 
