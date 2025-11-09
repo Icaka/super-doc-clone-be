@@ -55,6 +55,5 @@ public class DoctorService {
 
     public List<Doctor> searchByQuery(String query){
         return doctorRepository.findByNameLike(query);
-        //doctorRepository.findByFirstNameContainingOrLastNameContaining(query, query);
     }
 }

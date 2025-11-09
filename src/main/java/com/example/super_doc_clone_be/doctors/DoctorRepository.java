@@ -9,6 +9,6 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     @Query("SELECT d FROM Doctor d WHERE " +
-            "(LOWER(CONCAT(d.firstName, ' ', d.lastName)) LIKE LOWER(CONCAT('%',:query,'%')))")
+            "CONCAT(d.firstName, ' ', d.lastName) ILIKE CONCAT('%',:query,'%')")
     List<Doctor> findByNameLike(String query);
 }
