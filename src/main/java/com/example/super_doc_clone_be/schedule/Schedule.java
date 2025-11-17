@@ -19,13 +19,13 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "slotCount")
+    @Column(name = "count")
     private Integer slotCount;
 
-    @Column(name = "slotLength")
+    @Column(name = "length")
     private Integer slotLength;
 
-    @Column(name = "workStart")
+    @Column(name = "workstart")
     private Time workStart;
 
     @Column(name = "date")

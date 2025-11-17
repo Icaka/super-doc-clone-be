@@ -36,4 +36,15 @@ CREATE TABLE appointment
     slot INT,
     doctor_id INT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+);
+
+CREATE TABLE schedule
+(
+    id        SERIAL PRIMARY KEY,
+    count     INT,
+    length    INT,
+    workStart TIME,
+    date      DATE,
+    doctor_id INT,
+    CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors (id)
 )
