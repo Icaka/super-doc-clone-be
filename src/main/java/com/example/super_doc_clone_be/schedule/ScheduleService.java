@@ -19,6 +19,10 @@ public class ScheduleService {
 
     public ScheduleDTO findByDateAndDoctor(LocalDate date, Integer doctorId) {
         Schedule temp = scheduleRepository.findByDateAndDoctor_Id(date, doctorId);
+
+        if (temp == null) {
+            return new ScheduleDTO(0, 0, 0, null, null);
+        }
         return new ScheduleDTO(temp.getId(), temp.getSlotCount(), temp.getSlotLength(), temp.getWorkStart(), temp.getDate());
     }
 
