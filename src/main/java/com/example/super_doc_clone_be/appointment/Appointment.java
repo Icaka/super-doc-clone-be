@@ -24,6 +24,9 @@ public class Appointment {
     @Column(name = "slot")
     private Integer slot;
 
+    @Column(name = "taken")
+    private Boolean taken;
+
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;

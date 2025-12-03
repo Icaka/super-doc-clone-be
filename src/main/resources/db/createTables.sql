@@ -34,6 +34,7 @@ CREATE TABLE appointment
     id SERIAL PRIMARY KEY,
     date DATE,
     slot INT,
+    taken BOOLEAN,
     doctor_id INT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
