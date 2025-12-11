@@ -22,7 +22,7 @@ public class AppointmentService {
         List<Appointment> appointments = appointmentRepository.findByDoctorId(doctorId);
         List<AppointmentDTO> result = new ArrayList<>();
         for (Appointment a : appointments) {
-            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot(), a.getTaken()));
+            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot()));
         }
         return result;
     }
@@ -31,7 +31,6 @@ public class AppointmentService {
         Appointment temp = new Appointment();
         temp.setDate(appointmentDTO.date());
         temp.setSlot(appointmentDTO.slot());
-        temp.setTaken(appointmentDTO.taken());
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         this.appointmentRepository.save(temp);
         return true;

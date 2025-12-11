@@ -32,9 +32,7 @@ public class ScheduleService {
         List<Appointment> tempAppointments = appointmentRepository.findByDoctorIdAndDate(doctorId, date);
         List<Integer> takenSlots = new ArrayList<Integer>();
         for (Appointment a : tempAppointments) {
-            if (a.getTaken()) {
-                takenSlots.add(a.getSlot());
-            }
+            takenSlots.add(a.getSlot());
         }
         return new ScheduleDTO(temp.getId(), temp.getSlotCount(), temp.getSlotLength(), temp.getWorkStart(), temp.getDate(), takenSlots);
     }

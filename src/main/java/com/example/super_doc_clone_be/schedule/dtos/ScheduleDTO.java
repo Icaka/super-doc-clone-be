@@ -10,6 +10,6 @@ public record ScheduleDTO(
         Integer length,
         Time start,
         LocalDate date,
-        List<Integer> takenSlots
+        List<Integer> bookedSlots
 ) {
 }

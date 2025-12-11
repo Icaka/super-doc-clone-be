@@ -34,7 +34,6 @@ CREATE TABLE appointment
     id SERIAL PRIMARY KEY,
     date DATE,
     slot INT,
-    taken BOOLEAN,
     doctor_id INT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
@@ -48,4 +47,16 @@ CREATE TABLE schedule
     date      DATE,
     doctor_id INT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors (id)
-)
+);
+
+INSERT INTO appointment (date, slot, doctor_id)
+VALUES ('2025-03-23', 6, 4),
+       ('2025-03-23', 5, 4),
+       ('2025-03-23', 4, 4),
+       ('2025-03-23', 3, 4),
+       ('2025-11-23', 6, 4),
+       ('2025-11-23', 5, 4),
+       ('2025-07-15', 8, 4),
+       ('2025-11-10', 3, 2),
+       ('2025-11-10', 4, 2),
+       ('2025-11-10', 5, 2);

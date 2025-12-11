@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public record AppointmentDTO(
         Integer id,
         LocalDate date,
-        Integer slot,
-        Boolean taken
+        Integer slot
 ) {
 }
