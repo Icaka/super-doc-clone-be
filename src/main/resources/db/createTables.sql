@@ -60,3 +60,11 @@ VALUES ('2025-03-23', 6, 4),
        ('2025-11-10', 3, 2),
        ('2025-11-10', 4, 2),
        ('2025-11-10', 5, 2);
+
+CREATE TABLE "user"
+(
+    id            SERIAL PRIMARY KEY,
+    first_name    VARCHAR(32),
+    last_name     VARCHAR(32),
+    date_of_birth DATE
+);
