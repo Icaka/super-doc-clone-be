@@ -1,6 +1,7 @@
 package com.example.super_doc_clone_be.review;
 
 import com.example.super_doc_clone_be.doctors.Doctor;
+import com.example.super_doc_clone_be.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,8 @@ public class Review {
 
     @Column(name = "text")
     private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

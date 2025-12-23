@@ -24,4 +24,9 @@ public class ReviewController {
     public boolean create(@PathVariable Integer id, @RequestBody CreateReviewDTO createReviewDTO) {
         return reviewService.create(id, createReviewDTO);
     }
+
+    @GetMapping("/{user_id}")
+    public List<ReviewDTO> findByDoctorAndUserId(@PathVariable Integer id, @PathVariable Integer user_id) {
+        return this.reviewService.findByDoctorAndUserId(id, user_id);
+    }
 }

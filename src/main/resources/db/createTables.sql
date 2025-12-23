@@ -21,13 +21,17 @@ CREATE TABLE review
     doctor_id INT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id),
     score INT,
-    text TEXT
+    text    TEXT,
+    user_id INT,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-INSERT INTO review (doctor_id, score, text) VALUES
-    (3, 5, 'Dr. is an excellent surgeon. Highly recommended!'),
-    (4, 4, 'Dr. was very attentive and caring.'),
-    (5, 5, 'Dr. provided outstanding treatment and advice.');
+INSERT INTO review (doctor_id, score, text, user_id)
+VALUES (3, 5, 'Dr. is an excellent surgeon. Highly recommended!', 5),
+       (4, 4, 'Dr. was very attentive and caring.', 5),
+       (5, 5, 'Dr. provided outstanding treatment and advice.', 5),
+       (5, 4, 'Cool', 4),
+       (5, 4, 'Yes', 4);
 
 CREATE TABLE appointment
 (
@@ -61,10 +65,17 @@ VALUES ('2025-03-23', 6, 4),
        ('2025-11-10', 4, 2),
        ('2025-11-10', 5, 2);
 
-CREATE TABLE "user"
+CREATE TABLE users
 (
     id            SERIAL PRIMARY KEY,
     first_name    VARCHAR(32),
     last_name     VARCHAR(32),
     date_of_birth DATE
 );
+
+INSERT INTO users(first_name, last_name, date_of_birth)
+VALUES ('John', 'Persy', '1990-05-15'),
+       ('Patrick', 'Star', '1995-10-10'),
+       ('Tat', 'Star', '1995-10-10'),
+       ('Connor', 'Star', '1995-10-10'),
+       ('Jeff', 'Star', '1995-10-10');
