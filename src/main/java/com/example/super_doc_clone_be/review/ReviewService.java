@@ -21,14 +21,17 @@ public class ReviewService {
     }
 
     public List<ReviewDTO> findByDoctorId(final Integer id) {
-        System.out.println("findByDoctorId");
         return this.reviewRepository.findByDoctorId(id).stream()
-                .map(r -> new ReviewDTO(r.getId(), r.getScore(), r.getText(), r.getUser().getId())).toList();
+                .map(this::toReview).toList();
     }
 
     public List<ReviewDTO> findByDoctorAndUserId(final Integer doctor_id, final Integer user_id) {
         return this.reviewRepository.findByDoctorIdAndUserId(doctor_id, user_id).stream()
-                .map(r -> new ReviewDTO(r.getId(), r.getScore(), r.getText(), r.getUser().getId())).toList();
+                .map(this::toReview).toList();
+    }
+
+    public ReviewDTO toReview(Review r) {
+        return new ReviewDTO(r.getId(), r.getScore(), r.getText(), r.getUser().getId(), r.getUser().getFirstName(), r.getUser().getLastName());
     }
 
     boolean create(Integer doctorId, CreateReviewDTO createReviewDTO) {

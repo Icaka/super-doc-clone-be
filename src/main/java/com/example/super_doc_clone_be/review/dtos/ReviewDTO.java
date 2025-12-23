@@ -4,6 +4,8 @@ public record ReviewDTO(
         Integer id,
         Integer score,
         String text,
-        Integer user_id
+        Integer userId,
+        String userFirstName,
+        String userLastName
 ) {
 }
