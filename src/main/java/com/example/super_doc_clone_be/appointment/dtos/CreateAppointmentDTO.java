@@ -4,5 +4,6 @@ import java.time.LocalDate;
 
 public record CreateAppointmentDTO(
         LocalDate date,
-        Integer slot
+        Integer slot,
+        Integer userId
 ){}

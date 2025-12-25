@@ -1,6 +1,7 @@
 package com.example.super_doc_clone_be.appointment;
 
 import com.example.super_doc_clone_be.doctors.Doctor;
+import com.example.super_doc_clone_be.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +28,8 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

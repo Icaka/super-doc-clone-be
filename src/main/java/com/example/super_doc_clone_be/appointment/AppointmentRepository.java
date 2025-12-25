@@ -10,4 +10,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> findByDoctorId(Integer id);
 
     List<Appointment> findByDoctorIdAndDate(Integer id, LocalDate date);
+
+    List<Appointment> findByDoctorIdAndUserId(Integer doctorId, Integer userId);
 }

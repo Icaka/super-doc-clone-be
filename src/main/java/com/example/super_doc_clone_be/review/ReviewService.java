@@ -39,7 +39,7 @@ public class ReviewService {
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         temp.setScore(createReviewDTO.score());
         temp.setText(createReviewDTO.text());
-        temp.setUser(userRepository.findById(createReviewDTO.user_id()).orElseThrow());
+        temp.setUser(userRepository.findById(createReviewDTO.userId()).orElseThrow());
         this.reviewRepository.save(temp);
         return true;
     }

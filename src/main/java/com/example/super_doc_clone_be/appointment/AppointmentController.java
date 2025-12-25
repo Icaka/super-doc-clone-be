@@ -25,4 +25,8 @@ public class AppointmentController {
         return this.appointmentService.create(id, createAppointmentDTO);
     }
 
+    @GetMapping("/{user_id}")
+    List<AppointmentDTO> findByDoctorAndUserId(@PathVariable Integer id, @PathVariable Integer user_id) {
+        return this.appointmentService.findByDoctorAndUserId(id, user_id);
+    }
 }

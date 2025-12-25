@@ -39,7 +39,9 @@ CREATE TABLE appointment
     date DATE,
     slot INT,
     doctor_id INT,
-    CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+    CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors (id),
+    user_id INT,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE schedule
@@ -53,17 +55,17 @@ CREATE TABLE schedule
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors (id)
 );
 
-INSERT INTO appointment (date, slot, doctor_id)
-VALUES ('2025-03-23', 6, 4),
-       ('2025-03-23', 5, 4),
-       ('2025-03-23', 4, 4),
-       ('2025-03-23', 3, 4),
-       ('2025-11-23', 6, 4),
-       ('2025-11-23', 5, 4),
-       ('2025-07-15', 8, 4),
-       ('2025-11-10', 3, 2),
-       ('2025-11-10', 4, 2),
-       ('2025-11-10', 5, 2);
+INSERT INTO appointment (date, slot, doctor_id, user_id)
+VALUES ('2025-03-23', 6, 4, 3),
+       ('2025-03-23', 5, 4, 3),
+       ('2025-03-23', 4, 4, 2),
+       ('2025-03-23', 3, 4, 2),
+       ('2025-11-23', 6, 4, 1),
+       ('2025-11-23', 5, 4, 1),
+       ('2025-07-15', 8, 4, 1),
+       ('2025-11-10', 3, 2, 3),
+       ('2025-11-10', 4, 2, 2),
+       ('2025-11-10', 5, 2, 1);
 
 CREATE TABLE users
 (
