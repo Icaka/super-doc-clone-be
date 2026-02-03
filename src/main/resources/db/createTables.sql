@@ -70,14 +70,15 @@ VALUES ('2025-03-23', 6, 4, 3),
 CREATE TABLE users
 (
     id            SERIAL PRIMARY KEY,
+    email    VARCHAR(32),
+    password VARCHAR(32),
+    role     VARCHAR(32),
     first_name    VARCHAR(32),
     last_name     VARCHAR(32),
     date_of_birth DATE
 );
 
-INSERT INTO users(first_name, last_name, date_of_birth)
-VALUES ('John', 'Persy', '1990-05-15'),
-       ('Patrick', 'Star', '1995-10-10'),
-       ('Tat', 'Star', '1995-10-10'),
-       ('Connor', 'Star', '1995-10-10'),
-       ('Jeff', 'Star', '1995-10-10');
+INSERT INTO users(email, password, role, first_name, last_name, date_of_birth)
+VALUES ('j@mail', 2222, 'ROLE_USER', 'John', 'Persy', '1990-05-15'),
+       ('p@mail', 3333, 'ROLE_USER', 'Patrick', 'Star', '1995-10-10'),
+       ('t@mail', 4444, 'ROLE_USER', 'Tat', 'Star', '1995-10-10');
