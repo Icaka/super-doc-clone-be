@@ -27,11 +27,11 @@ CREATE TABLE review
 );
 
 INSERT INTO review (doctor_id, score, text, user_id)
-VALUES (3, 5, 'Dr. is an excellent surgeon. Highly recommended!', 5),
-       (4, 4, 'Dr. was very attentive and caring.', 5),
-       (5, 5, 'Dr. provided outstanding treatment and advice.', 5),
-       (5, 4, 'Cool', 4),
-       (5, 4, 'Yes', 4);
+VALUES (3, 5, 'Dr. is an excellent surgeon. Highly recommended!', 1),
+       (4, 4, 'Dr. was very attentive and caring.', 1),
+       (5, 5, 'Dr. provided outstanding treatment and advice.', 1),
+       (5, 4, 'Cool', 2),
+       (5, 4, 'Yes', 2);
 
 CREATE TABLE appointment
 (
