@@ -71,7 +71,7 @@ CREATE TABLE users
 (
     id            SERIAL PRIMARY KEY,
     email    VARCHAR(32),
-    password VARCHAR(32),
+    password VARCHAR(255),
     role     VARCHAR(32),
     first_name    VARCHAR(32),
     last_name     VARCHAR(32),
@@ -79,6 +79,9 @@ CREATE TABLE users
 );
 
 INSERT INTO users(email, password, role, first_name, last_name, date_of_birth)
-VALUES ('j@mail', 2222, 'ROLE_USER', 'John', 'Persy', '1990-05-15'),
+VALUES ('j@mail', 2222, 'ROLE_USER', 'John', 'Per', '1990-05-15'),
        ('p@mail', 3333, 'ROLE_USER', 'Patrick', 'Star', '1995-10-10'),
        ('t@mail', 4444, 'ROLE_USER', 'Tat', 'Star', '1995-10-10');
+
+ALTER TABLE users
+    ALTER COLUMN password TYPE varchar(255);

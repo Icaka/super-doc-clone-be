@@ -29,7 +29,7 @@ public class UserController {
         return userService.delete(id);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public boolean create(@RequestBody CreateUserDTO createUserDTO) {
         return userService.create(createUserDTO);
     }

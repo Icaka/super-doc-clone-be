@@ -1,6 +1,7 @@
 package com.example.super_doc_clone_be.user;
 
 import com.example.super_doc_clone_be.user.dtos.CreateUserDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    UserService(UserRepository userRepository) {
+    UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User findById(Integer id) {
@@ -31,6 +34,9 @@ public class UserService {
 
     public boolean create(CreateUserDTO createUserDTO) {
         User temp = new User();
+        temp.setEmail(createUserDTO.email());
+        temp.setPassword(passwordEncoder.encode(createUserDTO.password()));
+        temp.setRole("ROLE_USER");
         temp.setFirstName(createUserDTO.firstName());
         temp.setLastName(createUserDTO.lastName());
         temp.setDateOfBirth(createUserDTO.dateOfBirth());
