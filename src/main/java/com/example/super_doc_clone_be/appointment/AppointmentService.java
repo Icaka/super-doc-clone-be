@@ -3,6 +3,8 @@ package com.example.super_doc_clone_be.appointment;
 import com.example.super_doc_clone_be.appointment.dtos.AppointmentDTO;
 import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
 import com.example.super_doc_clone_be.doctors.DoctorRepository;
+import com.example.super_doc_clone_be.security.SecurityUtils;
+import com.example.super_doc_clone_be.user.User;
 import com.example.super_doc_clone_be.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +42,15 @@ public class AppointmentService {
     }
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
+        String email = SecurityUtils.getCurrentUsername();
+        User userFromToken = userRepository.findByEmail(email).orElseThrow();
+
         Appointment temp = new Appointment();
         temp.setDate(appointmentDTO.date());
         temp.setSlot(appointmentDTO.slot());
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
-        temp.setUser(userRepository.findById(appointmentDTO.userId()).orElseThrow());
+        //temp.setUser(userRepository.findById(appointmentDTO.userId()).orElseThrow());
+        temp.setUser(userFromToken);
         this.appointmentRepository.save(temp);
         return true;
     }
