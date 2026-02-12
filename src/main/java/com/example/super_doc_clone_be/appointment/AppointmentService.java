@@ -5,7 +5,6 @@ import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
 import com.example.super_doc_clone_be.doctors.DoctorRepository;
 import com.example.super_doc_clone_be.security.CurrentUserService;
 import com.example.super_doc_clone_be.user.User;
-import com.example.super_doc_clone_be.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,13 +14,11 @@ import java.util.List;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
-    private final UserRepository userRepository;
     private final CurrentUserService currentUserService;
 
-    AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, UserRepository userRepository, CurrentUserService currentUserService) {
+    AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, CurrentUserService currentUserService) {
         this.appointmentRepository = appointmentRepository;
         this.doctorRepository = doctorRepository;
-        this.userRepository = userRepository;
         this.currentUserService = currentUserService;
     }
 
@@ -49,7 +46,6 @@ public class AppointmentService {
         temp.setDate(appointmentDTO.date());
         temp.setSlot(appointmentDTO.slot());
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
-        //temp.setUser(userRepository.findById(appointmentDTO.userId()).orElseThrow());
         temp.setUser(userFromToken);
         this.appointmentRepository.save(temp);
         return true;
