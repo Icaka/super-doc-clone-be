@@ -2,8 +2,8 @@ package com.example.super_doc_clone_be.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,14 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final Key key;
+
+    public JwtService(
+            @Value("${token.key}") String token
+    ) {
+        byte[] keyBytes = token.getBytes();
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     private static final long EXPIRATION_TIME =
             1000 * 60 * 60; // 1 hour
