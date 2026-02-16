@@ -41,6 +41,9 @@ public class AppointmentService {
     }
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
+        if (!appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
+            throw new RuntimeException("Slot already taken");
+        }
         User userFromToken = currentUserService.get();
         Appointment temp = new Appointment();
         temp.setDate(appointmentDTO.date());

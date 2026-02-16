@@ -2,6 +2,8 @@ package com.example.super_doc_clone_be.appointment;
 
 import com.example.super_doc_clone_be.appointment.dtos.AppointmentDTO;
 import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +23,9 @@ public class AppointmentController {
     }
 
     @PostMapping("/create")
-    public boolean create(@PathVariable Integer id, @RequestBody CreateAppointmentDTO createAppointmentDTO){
-        return this.appointmentService.create(id, createAppointmentDTO);
+    public ResponseEntity<Boolean> create(@PathVariable Integer id, @RequestBody CreateAppointmentDTO createAppointmentDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.appointmentService.create(id, createAppointmentDTO));
     }
 
     @GetMapping("/{user_id}")
