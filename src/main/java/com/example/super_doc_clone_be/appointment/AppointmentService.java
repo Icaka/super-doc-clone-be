@@ -57,4 +57,13 @@ public class AppointmentService {
         this.appointmentRepository.save(temp);
         return true;
     }
+
+    public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
+        if (appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
+            throw new RuntimeException("Appointment doesn't exist");
+        }
+        appointmentRepository.deleteById(
+                appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).getFirst().getId());
+        return true;
+    }
 }
