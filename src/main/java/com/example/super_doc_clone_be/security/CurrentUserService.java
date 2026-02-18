@@ -19,5 +19,9 @@ public class CurrentUserService {
     public Integer getId() {
         return get().getId();
     }
+
+    public String getRole() {
+        return get().getRole();
+    }
 }
 

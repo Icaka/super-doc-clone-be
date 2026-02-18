@@ -1,19 +1,23 @@
 package com.example.super_doc_clone_be.user;
 
+import com.example.super_doc_clone_be.security.CurrentUserService;
 import com.example.super_doc_clone_be.user.dtos.CreateUserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CurrentUserService currentUserService;
 
-    UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CurrentUserService currentUserService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.currentUserService = currentUserService;
     }
 
     public User findById(Integer id) {
@@ -25,6 +29,9 @@ public class UserService {
     }
 
     public boolean delete(Integer id) {
+        if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
+            throw new RuntimeException("No Admin rights");
+        }
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;
@@ -33,6 +40,9 @@ public class UserService {
     }
 
     public boolean create(CreateUserDTO createUserDTO) {
+        if (userRepository.findByEmail(createUserDTO.email()).isPresent()) {
+            throw new RuntimeException("User already exists");
+        }
         User temp = new User();
         temp.setEmail(createUserDTO.email());
         temp.setPassword(passwordEncoder.encode(createUserDTO.password()));

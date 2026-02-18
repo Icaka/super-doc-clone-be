@@ -7,6 +7,7 @@ import com.example.super_doc_clone_be.security.CurrentUserService;
 import com.example.super_doc_clone_be.user.User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,10 @@ public class AppointmentService {
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
         if (!appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
-            throw new RuntimeException("Slot already taken");
+            throw new RuntimeException("Slot already booked");
+        }
+        if (appointmentDTO.date().isBefore(LocalDate.now())) {
+            throw new RuntimeException("Cannot book in the past");
         }
         User userFromToken = currentUserService.get();
         Appointment temp = new Appointment();
