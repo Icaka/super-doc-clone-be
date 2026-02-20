@@ -38,4 +38,10 @@ public class AppointmentController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.appointmentService.cancel(id, createAppointmentDTO));
     }
+
+    @DeleteMapping("/cancel_by_id/{appointment_id}")
+    public ResponseEntity<Boolean> cancelById(@PathVariable Integer id, @PathVariable Integer appointment_id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.appointmentService.cancelById(appointment_id));
+    }
 }

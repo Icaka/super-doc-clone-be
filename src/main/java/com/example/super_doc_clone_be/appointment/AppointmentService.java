@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AppointmentService {
@@ -64,6 +65,17 @@ public class AppointmentService {
         }
         appointmentRepository.deleteById(
                 appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).getFirst().getId());
+        return true;
+    }
+
+    public boolean cancelById(final Integer appointmentId) {
+        if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
+            throw new RuntimeException("No Admin rights");
+        }
+        if (appointmentRepository.findById(appointmentId).isEmpty()) {
+            throw new RuntimeException("Appointment with that id doesn't exist");
+        }
+        appointmentRepository.deleteById(appointmentId);
         return true;
     }
 }
