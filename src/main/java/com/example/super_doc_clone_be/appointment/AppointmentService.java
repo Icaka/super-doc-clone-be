@@ -34,6 +34,11 @@ public class AppointmentService {
         return toAppointmentDTO(appointments);
     }
 
+    public List<AppointmentDTO> findByUserId(final Integer userId) {
+        List<Appointment> appointments = appointmentRepository.findByUserId(userId);
+        return toAppointmentDTO(appointments);
+    }
+
     public List<AppointmentDTO> toAppointmentDTO(List<Appointment> appointments) {
         List<AppointmentDTO> result = new ArrayList<>();
         for (Appointment a : appointments) {
@@ -77,5 +82,9 @@ public class AppointmentService {
         }
         appointmentRepository.deleteById(appointmentId);
         return true;
+    }
+
+    List<AppointmentDTO> getLoggedUserAppointments() {
+        return findByUserId(this.currentUserService.getId());
     }
 }
