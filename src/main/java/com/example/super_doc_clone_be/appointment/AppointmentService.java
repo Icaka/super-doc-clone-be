@@ -73,7 +73,7 @@ public class AppointmentService {
         return true;
     }
 
-    public boolean cancelById(final Integer appointmentId) {
+    public boolean adminCancelById(final Integer appointmentId) {
         if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
             throw new RuntimeException("No Admin rights");
         }
@@ -86,5 +86,15 @@ public class AppointmentService {
 
     List<AppointmentDTO> getLoggedUserAppointments() {
         return findByUserId(this.currentUserService.getId());
+    }
+
+    public boolean userCancelById(final Integer appointmentId) {
+        Appointment temp = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment with that id doesn't exist"));
+        if (!Objects.equals(temp.getUser().getId(), currentUserService.getId())) {
+            throw new RuntimeException("This Appointment doesn't belong to you");
+        }
+        appointmentRepository.deleteById(appointmentId);
+        return true;
     }
 }

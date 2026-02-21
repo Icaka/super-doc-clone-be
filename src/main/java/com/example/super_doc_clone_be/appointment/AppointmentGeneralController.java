@@ -21,9 +21,15 @@ public class AppointmentGeneralController {
         return this.appointmentService.getLoggedUserAppointments();
     }
 
+    @DeleteMapping("/me/cancel/{appointment_id}")
+    public ResponseEntity<Boolean> userCancelById(@PathVariable Integer appointment_id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.appointmentService.userCancelById(appointment_id));
+    }
+
     @DeleteMapping("/cancel/{appointment_id}")
     public ResponseEntity<Boolean> cancelById(@PathVariable Integer appointment_id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.appointmentService.cancelById(appointment_id));
+                .body(this.appointmentService.adminCancelById(appointment_id));
     }
 }
