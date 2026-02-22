@@ -48,7 +48,7 @@ public class AppointmentService {
     }
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
-        if (!appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
+        if (appointmentRepository.existsByDoctorIdAndDateAndSlotAndStatusNot(doctorId, appointmentDTO.date(), appointmentDTO.slot(), AppointmentStatus.CANCELLED)) {
             throw new RuntimeException("Slot already booked");
         }
         if (appointmentDTO.date().isBefore(LocalDate.now())) {
@@ -73,7 +73,7 @@ public class AppointmentService {
         return true;
     }
 
-    public boolean adminCancelById(final Integer appointmentId) {
+    public boolean adminDeleteById(final Integer appointmentId) {
         if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
             throw new RuntimeException("No Admin rights");
         }
@@ -94,7 +94,7 @@ public class AppointmentService {
         if (!Objects.equals(temp.getUser().getId(), currentUserService.getId())) {
             throw new RuntimeException("This Appointment doesn't belong to you");
         }
-        appointmentRepository.deleteById(appointmentId);
+        temp.setStatus(AppointmentStatus.CANCELLED);
         return true;
     }
 }
