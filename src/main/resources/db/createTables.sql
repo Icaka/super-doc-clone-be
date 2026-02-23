@@ -85,3 +85,10 @@ VALUES ('j@mail', 2222, 'ROLE_USER', 'John', 'Per', '1990-05-15'),
 
 ALTER TABLE users
     ALTER COLUMN password TYPE varchar(255);
+
+ALTER TABLE appointment
+    ADD COLUMN status VARCHAR(255);
+
+UPDATE appointment
+SET status = 'CONFIRMED'
+WHERE status IS NULL;

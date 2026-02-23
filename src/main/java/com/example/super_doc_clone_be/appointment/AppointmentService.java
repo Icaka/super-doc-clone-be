@@ -42,7 +42,7 @@ public class AppointmentService {
     public List<AppointmentDTO> toAppointmentDTO(List<Appointment> appointments) {
         List<AppointmentDTO> result = new ArrayList<>();
         for (Appointment a : appointments) {
-            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot(), a.getUser().getId()));
+            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot(), a.getUser().getId(), a.getStatus()));
         }
         return result;
     }
@@ -60,6 +60,7 @@ public class AppointmentService {
         temp.setSlot(appointmentDTO.slot());
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         temp.setUser(userFromToken);
+        temp.setStatus(AppointmentStatus.PENDING);
         this.appointmentRepository.save(temp);
         return true;
     }
@@ -95,6 +96,7 @@ public class AppointmentService {
             throw new RuntimeException("This Appointment doesn't belong to you");
         }
         temp.setStatus(AppointmentStatus.CANCELLED);
+        appointmentRepository.save(temp);
         return true;
     }
 }
