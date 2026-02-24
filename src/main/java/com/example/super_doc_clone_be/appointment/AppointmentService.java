@@ -99,4 +99,32 @@ public class AppointmentService {
         appointmentRepository.save(temp);
         return true;
     }
+
+    public boolean changeAppointmentStatus(final Integer id, AppointmentStatus status) {
+        Appointment temp = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment with that id doesn't exist"));
+        if (!Objects.equals(temp.getDoctor().getId(), this.currentUserService.getId())) {
+            throw new RuntimeException("This Appointment is not scheduled with this doctor");
+        }
+        if (!validateTransition(temp.getStatus(), status)) {
+            throw new RuntimeException("Can't change status this way");
+        }
+        temp.setStatus(status);
+        this.appointmentRepository.save(temp);
+        return true;
+    }
+
+    public boolean validateTransition(final AppointmentStatus oldStatus, final AppointmentStatus newStatus) {
+        if (oldStatus == AppointmentStatus.PENDING) {
+            if (newStatus == AppointmentStatus.CONFIRMED || newStatus == AppointmentStatus.CANCELLED) {
+                return true;
+            }
+        }
+        if (oldStatus == AppointmentStatus.CONFIRMED) {
+            if (newStatus == AppointmentStatus.COMPLETED || newStatus == AppointmentStatus.CANCELLED || newStatus == AppointmentStatus.NO_SHOW) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
