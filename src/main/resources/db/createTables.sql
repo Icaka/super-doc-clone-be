@@ -89,6 +89,9 @@ ALTER TABLE users
 ALTER TABLE appointment
     ADD COLUMN status VARCHAR(255);
 
+Alter TABLE schedule
+    ADD COLUMN workEnd TIME;
+
 UPDATE appointment
 SET status = 'CONFIRMED'
 WHERE status IS NULL;

@@ -8,7 +8,8 @@ public record ScheduleDTO(
         Integer id,
         Integer count,
         Integer length,
-        Time start,
+        Time workStart,
+        Time workEnd,
         LocalDate date,
         List<Integer> bookedSlots
 ) {

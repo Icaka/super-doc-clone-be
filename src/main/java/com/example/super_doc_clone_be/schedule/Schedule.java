@@ -28,6 +28,9 @@ public class Schedule {
     @Column(name = "workstart")
     private Time workStart;
 
+    @Column(name = "workend", nullable = true)
+    private Time workEnd;
+
     @Column(name = "date")
     private LocalDate date;
 

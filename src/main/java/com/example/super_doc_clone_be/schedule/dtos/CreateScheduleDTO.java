@@ -6,7 +6,8 @@ import java.time.LocalDate;
 public record CreateScheduleDTO(
         Integer count,
         Integer length,
-        Time start,
+        Time workStart,
+        Time workEnd,
         LocalDate date
 ) {
 }

@@ -26,7 +26,7 @@ public class ScheduleService {
     public ScheduleDTO findByDateAndDoctor(LocalDate date, Integer doctorId) {
         Schedule temp = scheduleRepository.findByDateAndDoctor_Id(date, doctorId);
         if (temp == null) {
-            return new ScheduleDTO(0, 0, 0, null, null, null);
+            return new ScheduleDTO(0, 0, 0, null, null, null, null);
         }
 
         List<Appointment> tempAppointments = appointmentRepository.findByDoctorIdAndDate(doctorId, date);
@@ -34,7 +34,7 @@ public class ScheduleService {
         for (Appointment a : tempAppointments) {
             takenSlots.add(a.getSlot());
         }
-        return new ScheduleDTO(temp.getId(), temp.getSlotCount(), temp.getSlotLength(), temp.getWorkStart(), temp.getDate(), takenSlots);
+        return new ScheduleDTO(temp.getId(), temp.getSlotCount(), temp.getSlotLength(), temp.getWorkStart(), temp.getWorkEnd(), temp.getDate(), takenSlots);
     }
 
     boolean create(Integer doctorId, CreateScheduleDTO createReviewDTO) {
@@ -42,7 +42,8 @@ public class ScheduleService {
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         temp.setSlotCount(createReviewDTO.count());
         temp.setSlotLength(createReviewDTO.length());
-        temp.setWorkStart(createReviewDTO.start());
+        temp.setWorkStart(createReviewDTO.workStart());
+        temp.setWorkEnd(createReviewDTO.workEnd());
         temp.setDate(createReviewDTO.date());
         this.scheduleRepository.save(temp);
         return true;

@@ -25,7 +25,7 @@ public class DoctorAppointmentController {
     }
 
     @GetMapping("/appointment/{id}/status")
-    public ResponseEntity<Boolean> confirmAppointment(@PathVariable Integer id, @RequestBody AppointmentStatus status) {
+    public ResponseEntity<Boolean> setAppointmentStatus(@PathVariable Integer id, @RequestBody AppointmentStatus status) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.appointmentService.changeAppointmentStatus(id, status));
     }
