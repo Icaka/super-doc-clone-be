@@ -5,6 +5,7 @@ import com.example.super_doc_clone_be.appointment.AppointmentRepository;
 import com.example.super_doc_clone_be.doctors.DoctorRepository;
 import com.example.super_doc_clone_be.schedule.dtos.CreateScheduleDTO;
 import com.example.super_doc_clone_be.schedule.dtos.ScheduleDTO;
+import com.example.super_doc_clone_be.schedule.slot.SlotService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,11 +17,13 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
+    private final SlotService slotService;
 
-    ScheduleService(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, AppointmentRepository appointmentRepository) {
+    ScheduleService(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, AppointmentRepository appointmentRepository, SlotService slotService) {
         this.doctorRepository = doctorRepository;
         this.scheduleRepository = scheduleRepository;
         this.appointmentRepository = appointmentRepository;
+        this.slotService = slotService;
     }
 
     public ScheduleDTO findByDateAndDoctor(LocalDate date, Integer doctorId) {
