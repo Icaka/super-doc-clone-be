@@ -49,6 +49,7 @@ public class ScheduleService {
         temp.setWorkEnd(createReviewDTO.workEnd());
         temp.setDate(createReviewDTO.date());
         this.scheduleRepository.save(temp);
+        this.slotService.defaultSlotCreation(temp.getId(), temp.getWorkStart().toLocalTime(), temp.getSlotLength(), temp.getSlotCount());
         return true;
     }
 }

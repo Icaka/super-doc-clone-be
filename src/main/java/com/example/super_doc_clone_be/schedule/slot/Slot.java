@@ -18,10 +18,10 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "startTime")
+    @Column(name = "starttime")
     private LocalTime startTime;
 
-    @Column(name = "endTime")
+    @Column(name = "endtime")
     private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)

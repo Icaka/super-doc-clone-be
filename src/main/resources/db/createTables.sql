@@ -99,8 +99,8 @@ WHERE status IS NULL;
 CREATE TABLE slot
 (
     id          SERIAL PRIMARY KEY,
-    startTime   TIME,
-    endTime     TIME,
+    starttime TIME,
+    endtime   TIME,
     status      VARCHAR(255),
     schedule_id INT,
     CONSTRAINT fk_schedule FOREIGN KEY (schedule_id) REFERENCES schedule (id)

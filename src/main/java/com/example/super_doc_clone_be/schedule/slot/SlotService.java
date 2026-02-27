@@ -15,19 +15,15 @@ public class SlotService {
         this.slotRepository = slotRepository;
     }
 
-    boolean defaultPopulate(Integer scheduleId, LocalTime workStart, Integer slotLength, Integer slotCount) {
-        Slot temp = new Slot();
-        LocalTime tempTime = workStart;
+    public void defaultSlotCreation(Integer scheduleId, LocalTime workStart, Integer slotLength, Integer slotCount) {
         for (int i = 0; i < slotCount; i++) {
-            tempTime = workStart.plusMinutes(slotLength * i);
-            temp.setStartTime(tempTime);
-            tempTime = tempTime.plusMinutes(slotLength);
-            temp.setEndTime(tempTime);
+            Slot temp = new Slot();
+            temp.setStartTime(workStart.plusMinutes(slotLength * i));
+            temp.setEndTime(workStart.plusMinutes(slotLength * i).plusMinutes(slotLength));
             temp.setStatus(SlotStatus.AVAILABLE);
             temp.setSchedule(this.scheduleRepository.findById(scheduleId)
                     .orElseThrow(() -> new RuntimeException("No such schedule in Schedule Repository")));
             this.slotRepository.save(temp);
         }
-        return true;
     }
 }
