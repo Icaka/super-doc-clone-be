@@ -33,10 +33,11 @@ public class AppointmentController {
         return this.appointmentService.findByDoctorAndUserId(id, user_id);
     }
 
-    @PutMapping("/cancel")
-    public ResponseEntity<Boolean> cancel(@PathVariable Integer id, @RequestBody CreateAppointmentDTO createAppointmentDTO) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(this.appointmentService.cancel(id, createAppointmentDTO));
-    }
+    //TODO
+//    @PutMapping("/cancel")
+//    public ResponseEntity<Boolean> cancel(@PathVariable Integer id, @RequestBody CreateAppointmentDTO createAppointmentDTO) {
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(this.appointmentService.cancel(id, createAppointmentDTO));
+//    }
 
 }

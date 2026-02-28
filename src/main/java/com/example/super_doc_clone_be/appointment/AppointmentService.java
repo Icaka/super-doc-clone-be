@@ -3,6 +3,9 @@ package com.example.super_doc_clone_be.appointment;
 import com.example.super_doc_clone_be.appointment.dtos.AppointmentDTO;
 import com.example.super_doc_clone_be.appointment.dtos.CreateAppointmentDTO;
 import com.example.super_doc_clone_be.doctors.DoctorRepository;
+import com.example.super_doc_clone_be.schedule.slot.Slot;
+import com.example.super_doc_clone_be.schedule.slot.SlotRepository;
+import com.example.super_doc_clone_be.schedule.slot.SlotStatus;
 import com.example.super_doc_clone_be.security.CurrentUserService;
 import com.example.super_doc_clone_be.user.User;
 import org.springframework.stereotype.Service;
@@ -16,11 +19,13 @@ import java.util.Objects;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
+    private final SlotRepository slotRepository;
     private final CurrentUserService currentUserService;
 
-    AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, CurrentUserService currentUserService) {
+    AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, SlotRepository slotRepository, CurrentUserService currentUserService) {
         this.appointmentRepository = appointmentRepository;
         this.doctorRepository = doctorRepository;
+        this.slotRepository = slotRepository;
         this.currentUserService = currentUserService;
     }
 
@@ -48,31 +53,37 @@ public class AppointmentService {
     }
 
     public boolean create(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
-        if (appointmentRepository.existsByDoctorIdAndDateAndSlotAndStatusNot(doctorId, appointmentDTO.date(), appointmentDTO.slot(), AppointmentStatus.CANCELLED)) {
+        Slot tempSlot = slotRepository.findById(appointmentDTO.slotId())
+                .orElseThrow(() -> new RuntimeException("Slot doesn't exist in db"));
+        if (tempSlot.getStatus() != SlotStatus.AVAILABLE) {
             throw new RuntimeException("Slot already booked");
         }
-        if (appointmentDTO.date().isBefore(LocalDate.now())) {
+        if (tempSlot.getSchedule().getDate().isBefore(LocalDate.now())) {
             throw new RuntimeException("Cannot book in the past");
         }
         User userFromToken = currentUserService.get();
         Appointment temp = new Appointment();
-        temp.setDate(appointmentDTO.date());
-        temp.setSlot(appointmentDTO.slot());
+        temp.setDate(tempSlot.getSchedule().getDate());
+        temp.setSlot(tempSlot.getId()); //TODO
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         temp.setUser(userFromToken);
         temp.setStatus(AppointmentStatus.PENDING);
+
+        tempSlot.setStatus(SlotStatus.UNAVAILABLE);//TODO
+
         this.appointmentRepository.save(temp);
         return true;
     }
 
-    public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
-        if (appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
-            throw new RuntimeException("Appointment doesn't exist");
-        }
-        appointmentRepository.deleteById(
-                appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).getFirst().getId());
-        return true;
-    }
+    //TODO
+//    public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
+//        if (appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
+//            throw new RuntimeException("Appointment doesn't exist");
+//        }
+//        appointmentRepository.deleteById(
+//                appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).getFirst().getId());
+//        return true;
+//    }
 
     public boolean adminDeleteById(final Integer appointmentId) {
         if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
