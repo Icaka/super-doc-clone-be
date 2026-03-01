@@ -105,3 +105,6 @@ CREATE TABLE slot
     schedule_id INT,
     CONSTRAINT fk_schedule FOREIGN KEY (schedule_id) REFERENCES schedule (id)
 );
+
+Alter TABLE slot
+    ADD COLUMN number INT;

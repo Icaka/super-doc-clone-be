@@ -24,6 +24,9 @@ public class Slot {
     @Column(name = "endtime")
     private LocalTime endTime;
 
+    @Column(name = "number")
+    private Integer number;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private SlotStatus status;

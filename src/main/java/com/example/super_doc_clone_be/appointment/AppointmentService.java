@@ -47,7 +47,7 @@ public class AppointmentService {
     public List<AppointmentDTO> toAppointmentDTO(List<Appointment> appointments) {
         List<AppointmentDTO> result = new ArrayList<>();
         for (Appointment a : appointments) {
-            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot(), a.getUser().getId(), a.getStatus()));
+            result.add(new AppointmentDTO(a.getId(), a.getDate(), a.getSlot().getNumber(), a.getUser().getId(), a.getStatus()));
         }
         return result;
     }
@@ -64,26 +64,26 @@ public class AppointmentService {
         User userFromToken = currentUserService.get();
         Appointment temp = new Appointment();
         temp.setDate(tempSlot.getSchedule().getDate());
-        temp.setSlot(tempSlot.getId()); //TODO
+        temp.setSlot(tempSlot); //TODO
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         temp.setUser(userFromToken);
         temp.setStatus(AppointmentStatus.PENDING);
 
-        tempSlot.setStatus(SlotStatus.UNAVAILABLE);//TODO
+        //tempSlot.setStatus(SlotStatus.UNAVAILABLE);//TODO
 
         this.appointmentRepository.save(temp);
         return true;
     }
 
-    //TODO
-//    public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
-//        if (appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).isEmpty()) {
-//            throw new RuntimeException("Appointment doesn't exist");
-//        }
-//        appointmentRepository.deleteById(
-//                appointmentRepository.findByDoctorIdAndDateAndSlot(doctorId, appointmentDTO.date(), appointmentDTO.slot()).getFirst().getId());
-//        return true;
-//    }
+    public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
+        if (appointmentRepository.existsBySlot_Id(appointmentDTO.slotId())) {
+            throw new RuntimeException("Appointment doesn't exist");
+        }
+        this.freeSlot(appointmentRepository.findBySlot_Id(appointmentDTO.slotId()).getFirst().getSlot());
+        appointmentRepository.deleteById(
+                appointmentRepository.findBySlot_Id(appointmentDTO.slotId()).getFirst().getId());
+        return true;
+    }
 
     public boolean adminDeleteById(final Integer appointmentId) {
         if (!Objects.equals(currentUserService.getRole(), "ROLE_ADMIN")) {
@@ -107,6 +107,7 @@ public class AppointmentService {
             throw new RuntimeException("This Appointment doesn't belong to you");
         }
         temp.setStatus(AppointmentStatus.CANCELLED);
+        this.freeSlot(temp.getSlot());
         appointmentRepository.save(temp);
         return true;
     }
@@ -132,10 +133,13 @@ public class AppointmentService {
             }
         }
         if (oldStatus == AppointmentStatus.CONFIRMED) {
-            if (newStatus == AppointmentStatus.COMPLETED || newStatus == AppointmentStatus.CANCELLED || newStatus == AppointmentStatus.NO_SHOW) {
-                return true;
-            }
+            return newStatus == AppointmentStatus.COMPLETED || newStatus == AppointmentStatus.CANCELLED || newStatus == AppointmentStatus.NO_SHOW;
         }
         return false;
+    }
+
+    public void freeSlot(final Slot slot) {
+        slot.setStatus(SlotStatus.AVAILABLE);
+        this.slotRepository.save(slot);
     }
 }

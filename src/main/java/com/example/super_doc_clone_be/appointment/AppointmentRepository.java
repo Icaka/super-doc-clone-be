@@ -22,5 +22,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
             AppointmentStatus status
     );
 
+    boolean existsBySlot_Id(Integer slotId);
+
+    List<Appointment> findBySlot_Id(Integer slotId);
+
     List<Appointment> findByUserId(Integer userId);
 }

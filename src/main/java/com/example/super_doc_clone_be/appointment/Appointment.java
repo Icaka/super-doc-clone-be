@@ -1,6 +1,7 @@
 package com.example.super_doc_clone_be.appointment;
 
 import com.example.super_doc_clone_be.doctors.Doctor;
+import com.example.super_doc_clone_be.schedule.slot.Slot;
 import com.example.super_doc_clone_be.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,9 @@ public class Appointment {
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "slot")
-    private Integer slot;
+    @OneToOne
+    @JoinColumn(name = "slot_id", nullable = true)
+    private Slot slot;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)

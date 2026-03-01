@@ -20,6 +20,7 @@ public class SlotService {
             Slot temp = new Slot();
             temp.setStartTime(workStart.plusMinutes(slotLength * i));
             temp.setEndTime(workStart.plusMinutes(slotLength * i).plusMinutes(slotLength));
+            temp.setNumber(i + 1);
             temp.setStatus(SlotStatus.AVAILABLE);
             temp.setSchedule(this.scheduleRepository.findById(scheduleId)
                     .orElseThrow(() -> new RuntimeException("No such schedule in Schedule Repository")));
