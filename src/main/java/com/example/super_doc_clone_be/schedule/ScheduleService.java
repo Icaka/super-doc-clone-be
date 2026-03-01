@@ -35,19 +35,19 @@ public class ScheduleService {
         List<Appointment> tempAppointments = appointmentRepository.findByDoctorIdAndDate(doctorId, date);
         List<Integer> takenSlots = new ArrayList<Integer>();
         for (Appointment a : tempAppointments) {
-            takenSlots.add(a.getSlot());
+            takenSlots.add(a.getSlot().getNumber());
         }
         return new ScheduleDTO(temp.getId(), temp.getSlotCount(), temp.getSlotLength(), temp.getWorkStart(), temp.getWorkEnd(), temp.getDate(), takenSlots);
     }
 
-    boolean create(Integer doctorId, CreateScheduleDTO createReviewDTO) {
+    boolean create(Integer doctorId, CreateScheduleDTO createScheduleDTO) {
         Schedule temp = new Schedule();
         temp.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
-        temp.setSlotCount(createReviewDTO.count());
-        temp.setSlotLength(createReviewDTO.length());
-        temp.setWorkStart(createReviewDTO.workStart());
-        temp.setWorkEnd(createReviewDTO.workEnd());
-        temp.setDate(createReviewDTO.date());
+        temp.setSlotCount(createScheduleDTO.count());
+        temp.setSlotLength(createScheduleDTO.length());
+        temp.setWorkStart(createScheduleDTO.workStart());
+        temp.setWorkEnd(createScheduleDTO.workEnd());
+        temp.setDate(createScheduleDTO.date());
         this.scheduleRepository.save(temp);
         this.slotService.defaultSlotCreation(temp.getId(), temp.getWorkStart().toLocalTime(), temp.getSlotLength(), temp.getSlotCount());
         return true;
