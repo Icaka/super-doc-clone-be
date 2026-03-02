@@ -30,5 +30,10 @@ public class DoctorAppointmentController {
                 .body(this.appointmentService.changeAppointmentStatus(id, status));
     }
 
+    @GetMapping("appointment/{id}/accept")
+    public ResponseEntity<Boolean> acceptAppointment(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.appointmentService.acceptAppointment(id));
+    }
 
 }

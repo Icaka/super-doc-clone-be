@@ -142,4 +142,20 @@ public class AppointmentService {
         slot.setStatus(SlotStatus.AVAILABLE);
         this.slotRepository.save(slot);
     }
+
+    public boolean acceptAppointment(Integer appointmentId) {
+        Appointment temp = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment with that id doesn't exist"));
+        if (temp.getStatus() != AppointmentStatus.PENDING) {
+            return false;
+        }
+        if (temp.getSlot().getStatus() == SlotStatus.AVAILABLE) {
+            temp.setStatus(AppointmentStatus.CONFIRMED);
+            temp.getSlot().setStatus(SlotStatus.BOOKED);
+            this.slotRepository.save(temp.getSlot());
+        } else {
+            throw new RuntimeException("Slot is booked");
+        }
+        return true;
+    }
 }
