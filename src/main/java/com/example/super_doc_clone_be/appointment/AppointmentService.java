@@ -146,8 +146,11 @@ public class AppointmentService {
     public boolean acceptAppointment(Integer appointmentId) {
         Appointment temp = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment with that id doesn't exist"));
+        if (!Objects.equals(temp.getDoctor().getId(), currentUserService.getId())) {
+            throw new RuntimeException("This Appointment isn't scheduled with you");
+        }
         if (temp.getStatus() != AppointmentStatus.PENDING) {
-            return false;
+            throw new RuntimeException("Appointment status can't be altered");
         }
         if (temp.getSlot().getStatus() == SlotStatus.AVAILABLE) {
             temp.setStatus(AppointmentStatus.CONFIRMED);
