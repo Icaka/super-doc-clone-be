@@ -76,9 +76,9 @@ public class AppointmentService {
     }
 
     public boolean cancel(final Integer doctorId, final CreateAppointmentDTO appointmentDTO) {
-        if (appointmentRepository.existsBySlot_Id(appointmentDTO.slotId())) {
-            throw new RuntimeException("Appointment doesn't exist");
-        }
+//        if (appointmentRepository.existsBySlot_Id(appointmentDTO.slotId())) {
+//            throw new RuntimeException("Appointment doesn't exist");
+//        }
         this.freeSlot(appointmentRepository.findBySlot_Id(appointmentDTO.slotId()).getFirst().getSlot());
         appointmentRepository.deleteById(
                 appointmentRepository.findBySlot_Id(appointmentDTO.slotId()).getFirst().getId());

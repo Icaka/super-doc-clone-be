@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Table(name = "schedule")
 @Entity
@@ -26,10 +26,10 @@ public class Schedule {
     private Integer slotLength;
 
     @Column(name = "workstart")
-    private Time workStart;
+    private LocalTime workStart;
 
     @Column(name = "workend", nullable = true)
-    private Time workEnd;
+    private LocalTime workEnd;
 
     @Column(name = "date")
     private LocalDate date;

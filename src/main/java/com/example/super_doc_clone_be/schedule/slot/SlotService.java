@@ -3,6 +3,7 @@ package com.example.super_doc_clone_be.schedule.slot;
 import com.example.super_doc_clone_be.appointment.Appointment;
 import com.example.super_doc_clone_be.appointment.AppointmentRepository;
 import com.example.super_doc_clone_be.appointment.AppointmentStatus;
+import com.example.super_doc_clone_be.schedule.Schedule;
 import com.example.super_doc_clone_be.schedule.ScheduleRepository;
 import com.example.super_doc_clone_be.security.CurrentUserService;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,19 @@ public class SlotService {
     }
 
     public void defaultSlotCreation(Integer scheduleId, LocalTime workStart, Integer slotLength, Integer slotCount) {
+        Schedule tempSchedule = this.scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new RuntimeException("No such schedule in Schedule Repository"));
         for (int i = 0; i < slotCount; i++) {
             Slot temp = new Slot();
             temp.setStartTime(workStart.plusMinutes(slotLength * i));
             temp.setEndTime(workStart.plusMinutes(slotLength * i).plusMinutes(slotLength));
             temp.setNumber(i + 1);
             temp.setStatus(SlotStatus.AVAILABLE);
-            temp.setSchedule(this.scheduleRepository.findById(scheduleId)
-                    .orElseThrow(() -> new RuntimeException("No such schedule in Schedule Repository")));
+            temp.setSchedule(tempSchedule);
             this.slotRepository.save(temp);
+            if (temp.getEndTime().isAfter(tempSchedule.getWorkEnd())) {
+                break;
+            }
         }
     }
 
@@ -61,4 +66,6 @@ public class SlotService {
         tempAppointment.setStatus(AppointmentStatus.CANCELLED);
         this.appointmentRepository.save(tempAppointment);
     }
+
+
 }

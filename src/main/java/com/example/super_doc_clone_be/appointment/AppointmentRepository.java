@@ -13,16 +13,16 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     List<Appointment> findByDoctorIdAndUserId(Integer doctorId, Integer userId);
 
-    List<Appointment> findByDoctorIdAndDateAndSlot(Integer doctorId, LocalDate date, Integer slot);
+//    List<Appointment> findByDoctorIdAndDateAndSlot(Integer doctorId, LocalDate date, Integer slot);
 
-    boolean existsByDoctorIdAndDateAndSlotAndStatusNot(
-            Integer doctorId,
-            LocalDate date,
-            Integer slot,
-            AppointmentStatus status
-    );
+//    boolean existsByDoctorIdAndDateAndSlotAndStatusNot(
+//            Integer doctorId,
+//            LocalDate date,
+//            Integer slot,
+//            AppointmentStatus status
+//    );
 
-    boolean existsBySlot_Id(Integer slotId);
+//    boolean existsBySlot_Id(Integer slotId);
 
     List<Appointment> findBySlot_Id(Integer slotId);
 

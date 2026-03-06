@@ -1,13 +1,13 @@
 package com.example.super_doc_clone_be.schedule.dtos;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record CreateScheduleDTO(
         Integer count,
         Integer length,
-        Time workStart,
-        Time workEnd,
+        LocalTime workStart,
+        LocalTime workEnd,
         LocalDate date
 ) {
 }
