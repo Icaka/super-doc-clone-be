@@ -67,5 +67,26 @@ public class SlotService {
         this.appointmentRepository.save(tempAppointment);
     }
 
+    public boolean changeSlotEndTime(Integer slotId, LocalTime time) {
+        Slot slot = this.slotRepository.findById(slotId)
+                .orElseThrow(() -> new RuntimeException("No slot with such id in db"));
+        if (time.isBefore(slot.getStartTime())) {
+            throw new RuntimeException("Can't set end time before start time");
+        }
+        if (time.isAfter(slot.getSchedule().getWorkEnd())) {
+            throw new RuntimeException("End time is beyond the scope of the workday");
+        }
 
+        Slot nextSlot = this.slotRepository.findBySchedule_IdAndNumber(slotId, slot.getNumber() + 1).getFirst();
+        if (time.isAfter(nextSlot.getEndTime())) {
+            throw new RuntimeException("Can't go beyond next slot");
+        }
+        slot.setEndTime(time);
+        nextSlot.setStartTime(time);
+        this.slotRepository.save(slot);
+        this.slotRepository.save(nextSlot);
+        return true;
+    }
+
+    //TODO merge slots
 }

@@ -2,10 +2,9 @@ package com.example.super_doc_clone_be.schedule.slot;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/doctor/{doctor_id}/slot/{slot_id}")
@@ -20,5 +19,11 @@ public class DoctorSlotController {
     public ResponseEntity<Boolean> blockSlot(@PathVariable Integer doctor_id, @PathVariable Integer slot_id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.slotService.blockSlot(doctor_id, slot_id));
+    }
+
+    @PutMapping("/end")
+    public ResponseEntity<Boolean> changeEndOfSlot(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody LocalTime endTime) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.slotService.changeSlotEndTime(slot_id, endTime));
     }
 }
