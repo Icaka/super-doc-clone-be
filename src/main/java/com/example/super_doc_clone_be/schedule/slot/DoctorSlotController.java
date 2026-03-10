@@ -26,4 +26,10 @@ public class DoctorSlotController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.slotService.changeSlotEndTime(slot_id, endTime));
     }
+
+    @PutMapping("/merge")
+    public ResponseEntity<Boolean> mergeAdjacentSlots(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody Integer slotId, @RequestBody Integer slotId2) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.slotService.mergeAdjacentSlots(slotId, slotId2));
+    }
 }

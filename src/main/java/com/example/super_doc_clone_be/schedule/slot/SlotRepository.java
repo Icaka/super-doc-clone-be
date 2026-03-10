@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SlotRepository extends JpaRepository<Slot, Integer> {
     List<Slot> findBySchedule_IdAndNumber(Integer slotId, Integer lotNumber);
+
+    List<Slot> findBySchedule_IdAndNumberGreaterThan(Integer scheduleId, Integer numberIsGreaterThan);
 }

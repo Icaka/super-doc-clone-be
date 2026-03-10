@@ -89,4 +89,21 @@ public class SlotService {
     }
 
     //TODO merge slots
+    public boolean mergeAdjacentSlots(Integer slotId1, Integer slotId2) {
+        Slot slot1 = this.slotRepository.findById(slotId1)
+                .orElseThrow(() -> new RuntimeException("No slot with such id in db"));
+        Slot slot2 = this.slotRepository.findById(slotId2)
+                .orElseThrow(() -> new RuntimeException("No slot with such id in db"));
+        if (slot1.getNumber() != slot2.getNumber() - 1) {
+            throw new RuntimeException("Slots aren't adjacent");
+        }
+        slot1.setEndTime(slot2.getEndTime());
+        this.slotRepository.deleteById(slotId2);
+        List<Slot> slotsAfter = this.slotRepository.findBySchedule_IdAndNumberGreaterThan(slot1.getSchedule().getId(), slot1.getNumber());
+        for (Slot slot : slotsAfter) {
+            slot.setNumber(slot.getNumber() - 1);
+            this.slotRepository.save(slot);
+        }
+        return true;
+    }
 }
