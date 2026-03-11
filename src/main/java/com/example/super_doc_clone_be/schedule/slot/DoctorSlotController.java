@@ -1,10 +1,9 @@
 package com.example.super_doc_clone_be.schedule.slot;
 
+import com.example.super_doc_clone_be.schedule.slot.dtos.ChangeEndTimeDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/doctor/{doctor_id}/slot/{slot_id}")
@@ -22,9 +21,9 @@ public class DoctorSlotController {
     }
 
     @PutMapping("/end")
-    public ResponseEntity<Boolean> changeEndOfSlot(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody LocalTime endTime) {
+    public ResponseEntity<Boolean> changeEndOfSlot(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody ChangeEndTimeDTO change) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.slotService.changeSlotEndTime(slot_id, endTime));
+                .body(this.slotService.changeSlotEndTime(slot_id, change));
     }
 
     @PutMapping("/merge")

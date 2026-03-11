@@ -24,7 +24,7 @@ public class Appointment {
     private LocalDate date;
 
     @OneToOne
-    @JoinColumn(name = "slot_id", nullable = true)
+    @JoinColumn(name = "slot", nullable = true)
     private Slot slot;
 
     @ManyToOne
