@@ -1,6 +1,7 @@
 package com.example.super_doc_clone_be.schedule.slot;
 
 import com.example.super_doc_clone_be.schedule.slot.dtos.ChangeEndTimeDTO;
+import com.example.super_doc_clone_be.schedule.slot.dtos.MergeSlotsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class DoctorSlotController {
     }
 
     @PutMapping("/merge")
-    public ResponseEntity<Boolean> mergeAdjacentSlots(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody Integer slotId, @RequestBody Integer slotId2) {
+    public ResponseEntity<Boolean> mergeAdjacentSlots(@PathVariable Integer doctor_id, @PathVariable Integer slot_id, @RequestBody MergeSlotsDTO mergeSlotsDTO) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.slotService.mergeAdjacentSlots(slotId, slotId2));
+                .body(this.slotService.mergeAdjacentSlots(mergeSlotsDTO));
     }
 }

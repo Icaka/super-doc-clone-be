@@ -6,6 +6,7 @@ import com.example.super_doc_clone_be.appointment.AppointmentStatus;
 import com.example.super_doc_clone_be.schedule.Schedule;
 import com.example.super_doc_clone_be.schedule.ScheduleRepository;
 import com.example.super_doc_clone_be.schedule.slot.dtos.ChangeEndTimeDTO;
+import com.example.super_doc_clone_be.schedule.slot.dtos.MergeSlotsDTO;
 import com.example.super_doc_clone_be.security.CurrentUserService;
 import org.springframework.stereotype.Service;
 
@@ -89,16 +90,16 @@ public class SlotService {
         return true;
     }
 
-    public boolean mergeAdjacentSlots(Integer slotId1, Integer slotId2) {
-        Slot slot1 = this.slotRepository.findById(slotId1)
+    public boolean mergeAdjacentSlots(MergeSlotsDTO mergeSlotsDTO) {
+        Slot slot1 = this.slotRepository.findById(mergeSlotsDTO.id1())
                 .orElseThrow(() -> new RuntimeException("No slot with such id in db"));
-        Slot slot2 = this.slotRepository.findById(slotId2)
+        Slot slot2 = this.slotRepository.findById(mergeSlotsDTO.id2())
                 .orElseThrow(() -> new RuntimeException("No slot with such id in db"));
         if (slot1.getNumber() != slot2.getNumber() - 1) {
             throw new RuntimeException("Slots aren't adjacent");
         }
         slot1.setEndTime(slot2.getEndTime());
-        this.slotRepository.deleteById(slotId2);
+        this.slotRepository.deleteById(mergeSlotsDTO.id2());
         //TODO handling unfound
         List<Slot> slotsAfter = this.slotRepository.findByScheduleAndNumberGreaterThan(slot1.getSchedule(), slot1.getNumber());
         for (Slot slot : slotsAfter) {
